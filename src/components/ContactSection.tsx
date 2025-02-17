@@ -3,20 +3,32 @@
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Mail, Phone } from "lucide-react";
+import { Loader2, Mail, Phone } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, ChangeEvent, FormEvent } from "react";
+import { useToast } from "@/hooks/use-toast";
+
+
+interface FormData {
+  name: string;
+  email: string;
+  phone: string;
+  message: string;
+}
 
 export default function ContactSection() {
-  const [formData, setFormData] = useState({
+  const {toast} = useToast()
+  const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
     phone: "",
     message: "",
   });
 
+  const [loading, setLoading] = useState(false);
+
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setFormData({
       ...formData,
@@ -24,17 +36,44 @@ export default function ContactSection() {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    alert("Thank you for reaching out! We'll get back to you shortly.");
-    // Add form submission logic here (e.g., send to an API)
+    setLoading(true);
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+        }),
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error || "Failed to send email");
+      }
+
+     return toast({
+        description:<p className="text-green-500">Message sent successfully.</p>
+      })
+      setFormData({ name: "", email: "", phone: "", message: "" });
+    } catch{
+     return toast({
+      description:<p className="text-red-500">Couldn&apos;t send message. Try again..</p>
+      })
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <section className="mx-auto text-center my-20 max-w-4xl p-5">
-      <h1 className="text-5xl font-greatVibes font-extrabold mb-10">
-        Contact Me
-      </h1>
+      <h1 className="text-5xl font-greatVibes font-extrabold mb-10">Contact Me</h1>
       <p className="text-3xl font-light font-greatVibes text-muted-foreground mb-5">
         Feel free to reach out via the form below or through email/phone.
       </p>
@@ -46,7 +85,7 @@ export default function ContactSection() {
           className="flex items-center gap-2 text-primary text-lg font-semibold hover:underline"
         >
           <span className="bg-neutral-100 rounded-full p-4 dark:bg-neutral-800">
-            <Mail className="w-5 h-5 " />
+            <Mail className="w-5 h-5" />
           </span>
           ingshelpidy@gmail.com
         </Link>
@@ -55,7 +94,7 @@ export default function ContactSection() {
           className="flex items-center gap-2 text-primary text-lg font-semibold hover:underline"
         >
           <span className="bg-neutral-100 rounded-full p-4 dark:bg-neutral-800">
-            <Phone className="w-5 h-5 " />
+            <Phone className="w-5 h-5" />
           </span>
           +232 79 027241
         </Link>
@@ -64,7 +103,7 @@ export default function ContactSection() {
           className="flex items-center gap-2 text-primary text-lg font-semibold hover:underline"
         >
           <span className="bg-neutral-100 rounded-full p-4 dark:bg-neutral-800">
-            <Phone className="w-5 h-5 " />
+            <Phone className="w-5 h-5" />
           </span>
           +232 88 722317
         </Link>
@@ -103,7 +142,8 @@ export default function ContactSection() {
           rows={5}
           required
         />
-        <Button type="submit" className="w-full">
+        <Button type="submit" className="w-full" disabled={loading}>
+          {loading && <Loader2 className="animate-spin" />}
           Send Message
         </Button>
       </form>

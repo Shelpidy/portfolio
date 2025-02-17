@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Download, Save } from "lucide-react";
+import { ArrowRight} from "lucide-react";
 
 export default function ResumeSection() {
   return (
@@ -21,17 +21,7 @@ export default function ResumeSection() {
           View Resume
           <ArrowRight className="ml-2 h-5 w-5 transition-opacity duration-300 group-hover:translate-x-2" />
         </Link>
-        {/* <Link
-  href="/resume.pdf" // Replace with your actual resume link
-  download="resume.pdf" // Ensures the file is downloaded and optionally specifies the filename
-  rel="noopener noreferrer"
-  className="group relative p-3 border rounded-full border-black dark:border-gray-200 inline-flex items-center text-lg font-light font-greatVibes text-primary transition-colors"
->
-  Download Resume
-  <Save
-    className="ml-2 h-5 w-5 transition-opacity duration-300"
-  />
-</Link> */}
+
       </div>
     </section>
   );

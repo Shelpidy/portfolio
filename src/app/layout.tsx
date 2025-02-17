@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Great_Vibes, Philosopher } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { Toaster } from "@/components/ui/toaster";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,11 +17,13 @@ const geistMono = Geist_Mono({
 const greatVibes = Great_Vibes({
   variable: "--font-great-vibes",
   weight: ["400"],
+  subsets:["latin"]
 });
 
 const philosopher = Philosopher({
   variable: "--font-philosopher",
   weight: ["400"],
+  subsets:["latin"]
 });
 
 export const metadata: Metadata = {
@@ -44,6 +47,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

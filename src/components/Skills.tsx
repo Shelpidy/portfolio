@@ -1,8 +1,5 @@
 "use client";
-
-import { OutlineDividerSVG } from "./AboutSection";
 import { AnimatedProgress } from "./AnimatedProgress";
-
 const programmingData = [
   { name: "JavaScript", skill: 80 },
   { name: "TypeScript", skill: 80 },

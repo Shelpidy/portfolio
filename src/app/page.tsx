@@ -4,7 +4,6 @@ import ContactSection from "@/components/ContactSection";
 import ProjectsSection from "@/components/Projects";
 import ResumeSection from "@/components/Resume";
 import Skills from "@/components/Skills";
-import Image from "next/image";
 
 export default function Home() {
   return (

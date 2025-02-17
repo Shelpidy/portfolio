@@ -1,9 +1,5 @@
 "use client";
 
-import { Facebook, Github, Instagram, Linkedin } from "lucide-react";
-import Image from "next/image";
-import { ModeToggle } from "./ThemeToggle";
-import { motion } from "framer-motion";
 import {
   Carousel,
   CarouselContent,
@@ -11,7 +7,10 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import Autoplay from "embla-carousel-autoplay";
+import { motion } from "framer-motion";
+import { Facebook, Github, Instagram, Linkedin } from "lucide-react";
+import Image from "next/image";
+import { ModeToggle } from "./ThemeToggle";
 
 // Animation variants for parent container
 const containerVariant = {
